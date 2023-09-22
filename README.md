@@ -23,6 +23,9 @@ This is still an alpha stage. Use it with your own risk. I would not use this wh
 ## Installation
 
 ```bash
+# update all at the beginning
+sudo apt update && sudo apt upgrade
+
 # install ansible
 pip3 install ansible 
 
