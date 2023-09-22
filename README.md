@@ -34,6 +34,12 @@ git clone https://github.com/iptracej/mykali
 cd mykali
 ansible-playbook main.yml --ask-become-pass # supply your sudo password
 ```
+
+## Todo
+
+- Burpsuite and Browser extensions
+- Fish shell and their plugins integration 
+
 ## Note and special thanks
 
 I have used ippsec 'parrot build' repo and reuse some of the scripts. [https://github.com/IppSec/parrot-build](https://github.com/IppSec/parrot-build). 
