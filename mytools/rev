@@ -1,0 +1,33 @@
+#!/usr/bin/bash
+
+# This script runs nc nlvp <port number> with some printing messages
+# Usage: rev <port number>
+
+
+if [[ -z "$1" ]]; then
+    echo "Usage: rev <port number> (rev 4444)" 
+    exit
+fi
+
+# This is bit triky, since I assume that a shell starts with fish and then run bash. No more shells are called from the process tree. 
+# This will fail if a user starts with a fish and calls bash and then fish again.
+process_data=`ps`
+bash_shell=`echo $process_data | grep bash`
+
+#read -p "Are you in bash shell [n/Y]?" bash
+
+if [[ -z "$bash_shell" ]]; then
+    echo "Type bash and run this command again" 
+    echo "Usage: rev <port number> (rev 4444)" 
+    exit
+fi
+
+echo "Running nc -nlvp $1 command..."
+echo "Type below for interactive stty" 
+echo "# python3 -c 'import pty;pty.spawn(\"/bin/bash\")'"
+echo "# python3 -c 'import pty;pty.spawn(\"/bin/sh\")'"
+echo "# C+z"
+echo "# stty raw -echo;fg"
+echo "# [ENTER][ENTER] or reset"
+echo ""
+nc -nlvp $1 

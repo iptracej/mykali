@@ -1,0 +1,88 @@
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
+    state: directory
+  register: build_dir
+
+- name: "Copying python script to download github releases"
+  copy:
+    src: "files/githubdownload.py"
+    dest: "{{ build_dir.path }}/githubdownload.py"
+    owner: "{{ ansible_env.USER }}"    
+    group: "{{ ansible_env.USER }}"
+    mode: 0755
+  # become: true
+  # become_method: sudo
+
+- name: "Downloading github releases"
+  shell: "{{ build_dir.path }}/githubdownload.py {{ item.repo }} {{ item.regex }} {{ item.location }} {% if item.filename is defined %}{{ item.filename }}{% endif %}"
+  loop:
+    - { repo: "jpillora/chisel",  regex: "_linux_amd64.gz", location: "/opt/net/chisel" }
+    - { repo: "jpillora/chisel",  regex: "_windows_amd64.gz", location: "/opt/net/chisel" }
+    #- { repo: "jpillora/chisel",  regex: "_darwin_amd64", location: "/opt/chisel", filename: "chisel_osx" }
+    - { repo: "carlospolop/PEASS-ng",  regex: "linpeas.sh", location: "/opt/privesc/peas" }
+    - { repo: "carlospolop/PEASS-ng",  regex: "winPEASx64.exe", location: "/opt/privesc/peas" }
+    - { repo: "carlospolop/PEASS-ng",  regex: "winPEASany.exe", location: "/opt/privesc/peas" }
+    - { repo: "carlospolop/PEASS-ng",  regex: "winPEAx86.exe", location: "/opt/privesc/peas" }
+    - { repo: "WithSecureLabs/chainsaw",  regex: "chainsaw_all_", location: "/opt/" }
+    - { repo: "BloodHoundAD/BloodHound", regex: "BloodHound-linux-x64.zip", location: "/opt/post/BloodHound" }
+    - { repo: "BloodHoundAD/BloodHound", regex: "BloodHound-win32-x64.zip", location: "/opt/post/BloodHound" }
+    - { repo: "BloodHoundAD/SharpHound", regex: "SharpHound-v2.0.0.zip", location: "/opt/post/SharpHound" }
+    - { repo: "gentilkiwi/mimikatz", regex: "mimikatz_trunk.zip", location: "/opt/post/mimikatz/mimikatz_trunk" }
+    - { repo: "DominicBreuker/pspy", regex: "pspy32", location: "/opt/privesc/linux" }
+    - { repo: "DominicBreuker/pspy", regex: "pspy64", location: "/opt/privesc/linux" }
+    - { repo: "liamg/traitor", regex: "traitor-amd64", location: "/opt/privesc/linux" }
+    - { repo: "liamg/traitor", regex: "traitor-386", location: "/opt/privesc/linux" }
+    - { repo: "ernw/static-toolbox", regex: "nmap-7.80SVN-x86-a36a34aa6-portable.tar.gz", location: "/opt/static" }
+    - { repo: "andrew-d/static-binaries", regex: "binaries/linux/x86_64/nmap", location: "/opt/static" }  
+    - { repo: "andrew-d/static-binaries", regex: "binaries/linux/x86_64/python", location: "/opt/static" }
+    - { repo: "pts/staticpython", regex: "Python-2.7.12.tar.xz", location: "/opt/static" }   
+    - { repo: "pts/staticpython", regex: "Python-3.2.tar.bz2", location: "/opt/static" }
+  async: 45
+  poll: 0
+  # become: true
+  # become_method: sudo
+- name: Remove temporary build directory
+  ansible.builtin.file:
+    path: "{{ build_dir.path }}"
+    state: absent
+  when: build_dir.path is defined
+
+- name: Download Sysinternals Suite ZIP
+  ansible.builtin.get_url:
+    url: https://download.sysinternals.com/files/SysinternalsSuite.zip
+    dest: /opt/sysinternals/SysinternalsSuite.zip
+    mode: '0644'
+
+- name: Extract Sysinternals Suite
+  ansible.builtin.unarchive:
+    src: /opt/sysinternals/SysinternalsSuite.zip
+    dest: /opt/sysinternals/
+    remote_src: yes
+    creates: /opt/sysinternals/SysinternalsSuite
+
+- name: Download dotdotpwn
+  ansible.builtin.get_url:
+    url: https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Directory%20Traversal/Intruder/dotdotpwn.txt
+    dest: /opt/fuzz/dotdotpwn/dotdotpwn.txt
+    mode: '0644'
+
+- name: copy fuzz long file
+  copy:
+    src: "{{ role_path }}/files/LFI-long.txt"
+    dest: "/opt/fuzz/lfi/LFI-long.txt"
+  tags: lfi
+- name: copy fuzz short file
+  copy:
+    src: "{{ role_path }}/files/LFI-short-crimson.txt"
+    dest: "/opt/fuzz/lfi/LFI-short-crimson.txt"
+  tags: lfi
+- name: copy fuzz short file
+  copy:
+    src: "{{ role_path }}/files/LFI-short-crimson.txt"
+    dest: "/opt/fuzz/lfi/LFI-short-crimson.txt"
+  tags: lfi
+- name: copy fuzz dotdotpwn file
+  copy:
+    src: "/opt/fuzz/dotdotpwn/dotdotpwn.txt"
+    dest: "/opt/fuzz/lfi/LFI-medium-dotdotpwn.txt"
+  tags: dotdotpwn

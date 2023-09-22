@@ -1,0 +1,28 @@
+# tasks file for configure-kali_env
+- name: Run 'sudo timedatectl set-timezone America/Los_Angeles'
+  become: true
+  become_method: sudo
+  command: "sudo timedatectl set-timezone America/Los_Angeles"
+  register: timedatectl_set_timezone
+  changed_when: false
+  failed_when: false
+  tags: kali_env
+- name: Run 'sudo timedatectl'
+  become: true
+  become_method: sudo
+  command: "sudo timedatectl set-timezone"
+  register: timedatectl_set_timezone
+  changed_when: false
+  failed_when: false
+  tags: kali_env
+- name: "copy .bashrc"
+  copy:
+    src: "{{ role_path }}/files/.bashrc"
+    dest: "{{ ansible_env.HOME }}"
+- name: "copy .bash_aliases"
+  copy:
+    src: "{{ role_path }}/files/.bash_aliases"
+    dest: "{{ ansible_env.HOME }}"
+#- name: Run searchsploit -u
+#  become: yes
+#  shell: searchsploit -u

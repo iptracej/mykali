@@ -1,0 +1,21 @@
+# tasks file for configure-emacs
+- name: install emacs
+  become: true
+  become_method: sudo
+  apt:
+    name: emacs
+    state: present
+  tags: emacs
+- name: create a directory for emacs backups
+  file:
+    path: "{{ ansible_env.HOME}}/.emacs.d/backups"
+    state: directory
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
+    mode: "0755"
+  tags: emacs
+- name: copy emacs config
+  copy:
+    src: "{{ role_path }}/files/init.el"
+    dest: "{{ ansible_env.HOME }}/.emacs.d"
+  tags: emacs

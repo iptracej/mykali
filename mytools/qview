@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+# This script shows a quick summary of the machine's open ports from nmap scan result.
+# Usage: qview nmap/init.nmap
+
+grep '^[0-9][0-9]' $1

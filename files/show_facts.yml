@@ -1,0 +1,10 @@
+- name: "Show ansible variables"
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: "Demo Debug"
+      debug:
+        var: ansible_facts
+
+
+        

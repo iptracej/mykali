@@ -1,0 +1,52 @@
+# task file for configure-vscode
+- name: add Microsoft GPG key
+  become: true
+  become_method: sudo
+  apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+  when: ansible_os_family == 'Debian'
+- name: add vscode APT repository
+  become: true
+  become_method: sudo
+  apt_repository:
+    repo: "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+    state: present
+  when: ansible_os_family == 'Debian'
+- name: update APT package cache
+  become: true
+  become_method: sudo
+  apt:
+    update_cache: yes
+  when: ansible_os_family == 'Debian'
+- name: install package
+  become: true
+  become_method: sudo
+  apt: 
+    name: code 
+    state: present
+  when: ansible_os_family == 'Debian'
+- name: Install VS Code extension - streetsidesoftware.code-spell-checker
+  command: "code --install-extension streetsidesoftware.code-spell-checker"
+  become_user: "{{ ansible_env.USER }}" # Replace with your username
+  environment:
+    DISPLAY: ":0"  # Display environment variable for GUI applications
+- name: Install VS Code extension - ms-python.python
+  command: "code --install-extension ms-python.python"
+  become_user: "{{ ansible_env.USER }}" # Replace with your username
+  environment:
+    DISPLAY: ":0"  # Display environment variable for GUI applications
+- name: Install VS Code extension - DEVSENSE.phptools-vscode
+  command: "code --install-extension DEVSENSE.phptools-vscode"
+  become_user: "{{ ansible_env.USER }}" # Replace with your username
+  environment:
+    DISPLAY: ":0"  # Display environment variable for GUI applications
+- name: Install VS Code extension - GitHub.copilot
+  command: "code --install-extension GitHub.copilot"
+  become_user: "{{ ansible_env.USER }}" # Replace with your username
+  environment:
+    DISPLAY: ":0"  # Display environment variable for GUI applications
+# - name: Install VS Code extension - snyk-security.snyk-vulnerability-scanner
+#   command: "code --install-extension snyk-security.snyk-vulnerability-scanner"
+#   become_user: "{{ ansible_env.USER }}" # Replace with your username
+#   environment:
+#     DISPLAY: ":0"  # Display environment variable for GUI applications

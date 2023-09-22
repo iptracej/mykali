@@ -1,0 +1,117 @@
+# for installing and updating useful github repositories
+- name: set /opt directory permissions
+  become: true  # Run this task as root
+  become_method: sudo  # Run this task as root
+  ansible.builtin.file:
+    path: /opt  # Specify the path to the directory you want to modify
+    owner: root  # Set the owner of the directory
+    group: root  # Set the group owner of the directory
+    mode: "0777"  # Set the desired permission mode (e.g., 0755 for rwxr-xr-x)
+
+- name: create directories under /opt with Loop
+  vars:
+    base_dir: /opt
+    dir_names:
+      - csharp
+      - de-compile
+      - docker
+      - enum
+      - file-transfer
+      - fuzz
+      - fuzz/lfi
+      - fuzz/dotdotpwn
+      - git
+      - google
+      - misc
+      - net
+      - password-crack
+      - php
+      - post
+      - powershell
+      - privesc
+      - python
+      - reverse-engineering
+      - shell
+      - static
+      - sysinternals
+      - token
+      - viewer
+      # Add more directory names to this list as needed
+  ansible.builtin.file:
+    path: "{{ base_dir }}/{{ item }}"
+    state: directory
+    owner: "{{ ansible_env.USER }}"  # Set the owner of the directory if needed
+    group: "{{ ansible_env.USER }}" # Set the group owner if needed
+    mode: "0755"  # Set the desired permission mode
+  loop: "{{ dir_names }}"
+
+- name: "Installing useful github repos"
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.location }}"
+  loop:
+    - { repo: "https://github.com/Flangvik/SharpCollection", location: "/opt/csharp" }
+    - { repo: "https://github.com/Syzik/DockerRegistryGrabber", location: "/opt/docker/DockerRegistryGrabber" }
+    - { repo: "https://github.com/danielmiessler/SecLists", location: "/opt/enum/SecList" }
+    - { repo: "https://github.com/Tib3rius/AutoRecon", location: "/opt/enum/AutoRecon" }
+    - { repo: "https://github.com/cddmp/enum4linux-ng", location: "/opt/enum/enum4linux-ng" }
+    - { repo: "https://github.com/SECFORCE/sparta", location: "/opt/enum/sparta" }
+    - { repo: "https://github.com/rezasp/joomscan.git", location: "/opt/enum/joomscan" }
+    - { repo: "https://github.com/Karmaz95/crimson", location: "/opt/fuzz/crimson" }    
+    - { repo: "https://github.com/fuzzdb-project/fuzzdb", location: "/opt/fuzz/fuzzdb" }
+    - { repo: "https://github.com/dipsec/fuzzdb-2", location: "/opt/fuzz/fuzzdb2" }
+    - { repo: "https://github.com/omurugur/OS_Command_Payload_List", location: "/opt/fuzz/OS_Command_Payload_List" }
+    - { repo: "https://github.com/micahvandeusen/gMSADumper", location: "/opt/git/gMSADumper" }
+    - { repo: "https://github.com/clr2of8/DPAT", location: "/opt/password-crack/DPAT" }
+    - { repo: "https://github.com/jeroennijhof/vncpwd", location: "/opt/password-crack/vncpwd" }
+    - { repo: "https://github.com/AlessandroZ/LaZagne", location: "/opt/password-crack/LaZagne" }
+    - { repo: "https://github.com/clem9669/hashcat-rule", location: "/opt/password-crack/hashcat-rule" }
+    - { repo: "https://github.com/ParrotSec/mimikatz", location: "/opt/post/mimikatz" }
+    - { repo: "https://github.com/samratashok/ADModule", location: "/opt/powershell/ADModule" }
+    - { repo: "https://github.com/adrecon/ADRecon", location: "/opt/powershell/ADRecon" }
+    - { repo: "https://github.com/tokyoneon/Chimera", location: "/opt/powershell/Chimera" }
+    - { repo: "https://github.com/mishmashclone/BC-SECURITY-Empire", location: "/opt/powershell/BC-SECURITY-Empire" }
+    - { repo: "https://github.com/samratashok/nishang", location: "/opt/powershell/nishang" } 
+    - { repo: "https://github.com/PowerShellMafia/PowerSploit", location: "/opt/powershell/PowerSploit" }
+    - { repo: "https://github.com/itm4n/PrivescCheck", location: "/opt/powershell/PrivescCheck" }
+    - { repo: "https://github.com/carlospolop/PEASS-ng", location: "/opt/privesc/PEASS-ng" }
+    - { repo: "https://github.com/rebootuser/LinEnum", location: "/opt/privesc/linux/LinEnum" }
+    - { repo: "https://github.com/The-Z-Labs/linux-exploit-suggester", location: "/opt/privesc/linux/linux-exploit-suggester" }
+    - { repo: "https://github.com/jondonas/linux-exploit-suggester-2", location: "/opt/privesc/linux/linux-exploit-suggester-2" }
+    - { repo: "https://github.com/diego-treitos/linux-smart-enumeration", location: "/opt/privesc/linux/linux-smart-enumeration" }
+    - { repo: "https://github.com/H74N/netcat-binaries", location: "/opt/privesc/linux/netcat-binaries" }
+    - { repo: "https://github.com/Anon-Exploiter/SUID3NUM", location: "/opt/privesc/linux/SUID3NUM" }
+    - { repo: "https://github.com/int0x33/nc.exe", location: "/opt/privesc/windows" }
+    - { repo: "https://github.com/GhostPack/Rubeus", location: "/opt/privesc/windows/Rubeus" }
+    - { repo: "https://github.com/r3motecontrol/Ghostpack-CompiledBinaries", location: "/opt/privesc/windows/Ghostpack-CompiledBinaries" }        
+    - { repo: "https://github.com/bitsadmin/wesng", location: "/opt/privesc/windows/wesng" }
+    - { repo: "https://github.com/AonCyberLabs/Windows-Exploit-Suggester", location: "/opt/privesc/windows/Windows-Exploit-Suggester" }
+    - { repo: "https://github.com/Pwnistry/Windows-Exploit-Suggester-python3", location: "/opt/privesc/windows/Windows-Exploit-Suggester-python3" }
+    - { repo: "https://github.com/hfiref0x/UACME", location: "/opt/privesc/windows/UACME" }
+    - { repo: "https://github.com/S3cur3Th1sSh1t/WinPwn", location: "/opt/privesc/windows/WinPwn" }
+    - { repo: "https://github.com/ThePorgs/impacket", location: "/opt/python/impacket-porgs" }
+    - { repo: "https://github.com/dirkjanm/BloodHound.py", location: "/opt/python/BloodHound.py" }
+    - { repo: "https://github.com/jazzpizazz/BloodHound.py-Kerberos", location: "/opt/python/BloodHound.py-Kerberos" }    
+    - { repo: "https://github.com/ly4k/Certipy", location: "/opt/python/Certipy" }
+    - { repo: "https://github.com/61106960/adPEAS", location: "/opt/post/adPEAS" }
+    - { repo: "https://github.com/izenynn/c-reverse-shell", location: "/opt/shell/c-reverse-shell" }
+    - { repo: "https://github.com/dev-frog/C-Reverse-Shell", location: "/opt/shell/C-Reverse-Shell" }
+    - { repo: "https://github.com/bayufedra/Tiny-PHP-Webshell", location: "/opt/shell/php/Tiny-PHP-Webshell" }
+    - { repo: "https://github.com/Dhayalanb/windows-php-reverse-shell", location: "/opt/shell/php/windows-php-reverse-shell" }
+    - { repo: "https://github.com/xl7dev/WebShell", location: "/opt/shell/php/WebShell" }
+    - { repo: "https://github.com/ivan-sincek/php-reverse-shell", location: "/opt/shell/php/php-reverse-shell" }
+    - { repo: "https://github.com/pentestmonkey/php-reverse-shell", location: "/opt/shell/php/pentestmonkey-php-reverse-shell" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

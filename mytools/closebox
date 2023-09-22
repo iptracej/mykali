@@ -1,0 +1,49 @@
+#!/usr/bin/bash
+
+# This script cleanups all files in the lab machine's directory after you complete the lab.
+
+# Currently home diretory is a place to create a directory for project. Change if you wish.
+DIR=$HOME
+
+read -p "Enter Lab (pg oscp htb vulnhub thm pta, others, etc.) :" labname
+if [[ -d $DIR/$labname ]]
+then
+
+    read -p "Enter Project Name: " dirname
+    
+    if [ $labname == "oscp" ]; then
+	path=$DIR/$labname/lab/$dirname
+    else
+	path=$DIR/$labname/$dirname
+    fi
+
+    if [[ -d $path ]]
+    then
+	
+	tmux_log_name=$(echo $dirname | tr '.' '_')
+
+	echo $tmux_log_name
+    
+	mv $HOME/tmux-history-$tmux_log_name* $path/logs/ 2>/dev/null
+        #mv $HOME/Pictures/* $path/screenshots 2>/dev/null
+	#mv $HOME/Downloads/*.png $path/screenshots 2>/dev/null
+
+	if [[ -f $path/.env ]]
+	then
+	    cd $path
+	    direnv deny
+	fi
+
+	cd $path
+
+	mkdir -p feroxbuster
+	mv ferox-* feroxbuster 2>/dev/null
+	mv feroxbuster-* feroxbuster 2>/dev/null
+	
+    else
+	echo "No directory exists"
+	exit
+    fi
+else
+    echo "No lab name exits"
+fi

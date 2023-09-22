@@ -1,0 +1,44 @@
+# tasks file for configure-tmux
+- name: install tmux
+  become: true
+  become_method: sudo
+  apt:
+    name: tmux
+    state: present
+  tags: tmux
+- name: clone TPM repository
+  git:
+    repo: 'https://github.com/tmux-plugins/tpm.git'
+    dest: "{{ ansible_env.HOME}}/.tmux/plugins/tpm"
+  tags: tmux
+- name: copy tmux config
+  copy:
+    src: "{{ role_path }}/files/.tmux.conf"
+    dest: "{{ ansible_env.HOME }}"
+  tags: tmux
+- name: copy tmux tmux-ip.sh 
+  copy:
+    src: "{{ role_path }}/files/tmux-ip.sh" 
+    dest: "{{ ansible_env.HOME }}/.tmux"
+  tags: tmux
+- name: copying tmux-copy.sh
+  copy: 
+    src: "{{ role_path }}/files/tmux-copy.sh"
+    dest: "{{ ansible_env.HOME }}/.tmux"
+- name: lookup files with a certain pattern
+  find:
+    paths: "{{ ansible_env.HOME}}/.tmux/"
+    file_type: file
+    patterns: "*.sh"
+  register: filelist
+
+- name: change permissions
+  file:
+    path: "{{ item.path }}"
+    state: file
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER }}"
+    mode: "0775"
+  with_items: "{{ filelist.files }}"
+
+

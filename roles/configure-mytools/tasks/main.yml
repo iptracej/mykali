@@ -1,0 +1,27 @@
+# tasks file for configure-mytool
+- name: Create a '.local' directory under ansible_env.HOME
+  ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.local"
+        state: directory
+
+- name: Copy the 'mytools' directory to the destination
+  ansible.builtin.copy:
+    src: "{{ ansible_env.PWD }}/mytools"
+    dest: "{{ ansible_env.HOME }}/.local"
+    owner: "{{ ansible_env.USER }}"
+    group: "{{ ansible_env.USER}}"
+    mode: "0755"
+
+- name: Find all files in the destination directory
+  ansible.builtin.find:
+    paths: "{{ ansible_env.HOME }}/.local/mytools"
+    recurse: yes
+    file_type: file
+  register: found_files
+
+- name: Set permissions to 0755 for all files
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    mode: "0755"
+  loop: "{{ found_files.files }}"
+  when: item.mode != "0755"

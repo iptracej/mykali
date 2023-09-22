@@ -1,0 +1,3 @@
+# tasks file for installing kerbrute with go
+- name: install kerbrute
+  shell: go install github.com/ropnop/kerbrute@latest

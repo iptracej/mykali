@@ -1,0 +1,26 @@
+# tasks file for configure-nmap
+- name: Run 'sudo getcapt /usr/bin/nmap'
+  become: true
+  become_method: sudo
+  command: "sudo getcap /usr/bin/nmap"
+  register: nmap_getcap
+  changed_when: false
+  failed_when: false
+  tags: nmap
+- name: Run 'sudo setcap cap_net_raw,cap_net_admin,cap_net_bind_service+eip /usr/bin/nmap
+  become: true
+  become_method: sudo
+  command: "sudo setcap cap_net_raw,cap_net_admin,cap_net_bind_service+eip /usr/bin/nmap"
+  register: nmap_getcap
+  changed_when: false
+  failed_when: false
+  tags: nmap
+- name: Run 'sudo getcapt /usr/bin/nmap'
+  become: true
+  become_method: sudo
+  command: "sudo getcap /usr/bin/nmap"
+  register: nmap_getcap
+  changed_when: false
+  failed_when: false
+  tags: nmap
+

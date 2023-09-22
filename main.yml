@@ -1,0 +1,13 @@
+---
+- name: "Customizing Kali - MyKali"
+  hosts: localhost
+  connection: local
+  roles: 
+    - role: "roles/install-tools"
+    - role: "roles/configure-tmux"
+    - role: "roles/configure-emacs"
+    - role: "roles/configure-nmap"
+    - role: "roles/configure-kali_env"
+    - role: "roles/configure-vscode"
+    - role: "roles/configure-mytools"
+

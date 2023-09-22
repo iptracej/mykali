@@ -1,0 +1,134 @@
+#!/usr/bin/bash
+
+# This script creats a directory that include subdirectories for your lab practices before you starts the lab machine.
+
+# Update a lab directory for your project. I am creating all lab directories in under $HOME directory 
+LABDIR=$HOME
+# LABDIR=$PWD
+# LABDIR=$HOME/lab/
+
+function create_workspace
+{
+
+    echo "Creating a directory..."
+    mkdir $path
+    
+    cd $path
+
+    mkdir -p nmap
+    mkdir -p autorecon
+    mkdir -p logs
+    mkdir -p screenshots
+    mkdir -p privesc
+    mkdir -p poi
+    mkdir -p searchsploit
+    mkdir -p post
+    mkdir -p net
+    mkdir -p shell
+    mkdir -p cred
+    mkdir -p exploit
+    mkdir -p localexploit
+
+    if [[ -f $HOME/$labname/target.txt ]]; then
+        rm $HOME/$labname/target.txt -rf
+    fi    
+    
+    echo $rhost > target.txt
+    
+    # Copying useful files
+    cp /opt/shell/images/shell.php.gif shell/
+    cp /opt/shell/images/phpinfo.php.gif shell/
+    cp /opt/shell/images/phpinfo.php.jpg shell/
+    
+    cp /opt/shell/php-reverse-shell-pentestmonkey/php-reverse-shell/php-reverse-shell.php shell/
+    cp /opt/shell/php-reverse-shell/php-reverse-shell-2.5.1/src/reverse/php_reverse_shell.php shell/win-php_reverse_shell.php
+    cp /opt/shell/Tiny-PHP-Webshell/README.md shell/Tiny-PHP-WebShell-README.md
+    cp /opt/powershell/nishang/Shells/Invoke-PowerShellTcp.ps1 shell/
+
+    # cp /opt/net/chisel/* net/
+    cp /opt/net/Invoke-Portscan.ps1 net/
+    cp /opt/static/nmap-7.80SVN-x86_64-a36a34aa6-portable.tar.gz net/
+
+    echo "Directory created $path"
+
+}
+
+
+function get_project_info
+{
+
+    read -p "Enter Lab Directory Name (pg oscp htb vulnhub thm pta exam others, etc.) :" labname
+
+    read -p "Enter Project Name :" dirname
+    read -p "Enter Local Host IP Address: " lhost
+    read -p "Enter Remote Host IP Address: " rhost
+    read -p "Take a screenshot for every command? [n/Y]" screenshot
+
+    if [[ ! -d $HOME/$labname ]]
+    then
+	    read -p "Do you want to create a a new lab directory $HOME/$labname ? [Y/n]" labdir
+	    if [[ $labdir != 'Y' ]]; then
+	        echo "No lab directory exists or not created."
+	        exit
+	    fi
+    fi
+}
+
+function setup_path
+{
+    if [[ $labname == "oscp" ]]; then
+	    path=$HOME/$labname/lab/$dirname
+    else
+	    path=$HOME/$labname/$dirname
+    fi
+    
+    echo "Your lab directory:" $path
+}
+
+function create_project
+{
+
+    if [[ $labdir == 'Y' ]]; then
+	    mkdir $HOME/$labname
+    fi
+
+    if [[ -d $HOME/$labname ]]; then
+    
+	    if [[ ! -d $path ]]; then
+	        create_workspace
+	    else
+            echo "Same project directory exists."
+            read -p "Do you want to overwrite [Y/n]:" overwrite 
+            if [[ $overwrite  == 'Y' ]]; then
+                echo $rhost > $path/target.txt
+                echo "Overwriting target.txt..."
+            else
+    	        echo "No project is created"
+            fi
+	    fi
+    fi
+}
+
+function create_command
+{
+    if [[ -f $HOME/$labname/init.cmd ]]; then
+        rm $HOME/$labname/init.cmd -rf
+    fi    
+
+    if [[ $screenshot == 'Y' ]]; then
+	    echo "cd $path && tmux new -s $dirname -e RHOST=$rhost -e LHOST=$lhost -e PROJECT=$path -e SCREENSHOT=Yes" | tee init.cmd
+    else
+	    echo "cd $path && tmux new -s $dirname -e RHOST=$rhost -e LHOST=$lhost -e PROJECT=$path" | tee init.cmd
+	fi
+}
+
+
+function main
+{
+    get_project_info
+    setup_path
+    create_project
+    create_command
+}
+
+main
