@@ -27,7 +27,7 @@ This is still an alpha stage. Use it with your own risk. I would not use this wh
 pip3 install ansible 
 
 # install mykali
-git clone 
+git clone https://github.com/iptracej/mykali
 cd mykali
 ansible-playbook main.yml --ask-become-pass # supply your sudo password
 ```
