@@ -24,7 +24,10 @@ This is still an alpha stage. Use it with your own risk. Use it for a new machin
 
 ```bash
 # update all at the beginning
-sudo apt update && sudo apt upgrade
+sudo apt update 
+
+# install pip3 
+sudo apt install python3-pip  
 
 # install ansible
 pip3 install ansible 
