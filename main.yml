@@ -2,6 +2,8 @@
 - name: "Customizing Kali - MyKali"
   hosts: localhost
   connection: local
+  become: true
+  become_method: sudo
   roles: 
     - role: "roles/install-tools"
     - role: "roles/configure-tmux"
@@ -9,5 +11,6 @@
     - role: "roles/configure-nmap"
     - role: "roles/configure-kali_env"
     - role: "roles/configure-vscode"
+    - role: "roles/configure-docker"
     - role: "roles/configure-mytools"
 

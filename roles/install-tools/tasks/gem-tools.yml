@@ -18,5 +18,3 @@
     - rubyntlm
     - winrm-fs
     - evil-winrm
-  become: true
-  become_method: sudo

@@ -1,0 +1,6 @@
+- name: install pypi tools via pip
+  pip:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - pipenv
