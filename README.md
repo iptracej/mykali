@@ -2,7 +2,7 @@
 
 ## Description
 
-mykali is an ansible-based automation that deploys customized tools and features to a default Kali environment. This is basically designed push your specific tools and configurations when introducing a new Kali OS to a pentesting or CTF engagement. 
+mykali is an ansible-based automation that deploys customized tools and features to a default Kali environment. This is basically designed push your specific tools and configurations when introducing a new Kali OS to a pentesting or CTF engagement. Check a relevant blog [Ansible based automation for a new Kali](https://iptracej.github.io/posts/2023-09-22-my-kali-ansible-automation/). 
 
 ## Instruction
 
