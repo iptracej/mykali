@@ -6,6 +6,13 @@
     name: tmux
     state: present
   tags: tmux
+- name: install xsel
+  become: true
+  become_method: sudo
+  apt:
+    name: xsel
+    state: present
+  tags: tmux
 - name: clone TPM repository
   git:
     repo: 'https://github.com/tmux-plugins/tpm.git'
