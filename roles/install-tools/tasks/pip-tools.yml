@@ -4,3 +4,4 @@
     state: present
   loop:
     - pipenv
+    - updog
