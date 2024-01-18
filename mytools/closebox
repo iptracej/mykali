@@ -25,6 +25,7 @@ then
 	echo $tmux_log_name
     
 	mv $HOME/tmux-history-$tmux_log_name* $path/logs/ 2>/dev/null
+	mv $HOME/$dirname*.log $path/logs/ 2>/dev/null
         #mv $HOME/Pictures/* $path/screenshots 2>/dev/null
 	#mv $HOME/Downloads/*.png $path/screenshots 2>/dev/null
 

@@ -17,6 +17,7 @@ function create_workspace
 
     mkdir -p nmap
     mkdir -p autorecon
+    mkdir -p nmapautomator 
     mkdir -p logs
     mkdir -p screenshots
     mkdir -p privesc
@@ -24,7 +25,7 @@ function create_workspace
     mkdir -p searchsploit
     mkdir -p post
     mkdir -p net
-    mkdir -p shell
+    mkdir -p revshell
     mkdir -p cred
     mkdir -p exploit
     mkdir -p localexploit
@@ -36,14 +37,14 @@ function create_workspace
     echo $rhost > target.txt
     
     # Copying useful files
-    cp /opt/shell/images/shell.php.gif shell/
-    cp /opt/shell/images/phpinfo.php.gif shell/
-    cp /opt/shell/images/phpinfo.php.jpg shell/
+    cp /opt/shell/images/shell.php.gif revshell/
+    cp /opt/shell/images/phpinfo.php.gif revshell/
+    cp /opt/shell/images/phpinfo.php.jpg revshell/
     
-    cp /opt/shell/php-reverse-shell-pentestmonkey/php-reverse-shell/php-reverse-shell.php shell/
-    cp /opt/shell/php-reverse-shell/php-reverse-shell-2.5.1/src/reverse/php_reverse_shell.php shell/win-php_reverse_shell.php
-    cp /opt/shell/Tiny-PHP-Webshell/README.md shell/Tiny-PHP-WebShell-README.md
-    cp /opt/powershell/nishang/Shells/Invoke-PowerShellTcp.ps1 shell/
+    cp /opt/shell/php-reverse-shell-pentestmonkey/php-reverse-shell/php-reverse-shell.php revshell/
+    cp /opt/shell/php-reverse-shell/php-reverse-shell-2.5.1/src/reverse/php_reverse_shell.php revshell/win-php_reverse_shell.php
+    cp /opt/shell/Tiny-PHP-Webshell/README.md revshell/
+    cp /opt/powershell/nishang/Shells/Invoke-PowerShellTcp.ps1 revshell/
 
     # cp /opt/net/chisel/* net/
     cp /opt/net/Invoke-Portscan.ps1 net/
@@ -59,7 +60,7 @@ function get_project_info
 
     read -p "Enter Lab Directory Name (pg oscp htb vulnhub thm pta exam others, etc.) :" labname
 
-    read -p "Enter Project Name :" dirname
+    read -p "Enter Project Name: " dirname
     read -p "Enter Local Host IP Address: " lhost
     read -p "Enter Remote Host IP Address: " rhost
     read -p "Take a screenshot for every command? [n/Y]" screenshot

@@ -37,6 +37,8 @@ else
 	cp /opt/privesc/linux/SUID3NUM/suid3num.py $dir
 	cp /opt/net/socat/socatx64.bin $dir
 	cp /opt/net/socat/socatx86.bin $dir
+	cp /opt/static/bat64 $dir
+	cp /opt/static/bat86 $dir
 	
 	echo "Copying all tools...done"
 	chmod 755 $dir/*

@@ -19,27 +19,20 @@ function privesc()
 	cp /opt/privesc/windows/collection/accesschk64a.exe $dir
 	cp /opt/privesc/windows/collection/nc64.exe $dir
 	cp /opt/privesc/windows/collection/nc.exe $dir
-
 	cp /opt/privesc/windows/collection/strings64.exe $dir
 	cp /opt/privesc/windows/collection/strings.exe $dir
-
 	cp /opt/privesc/windows/collection/PsExec64.exe $dir
 	cp /opt/privesc/windows/collection/PsExec.exe $dir
-	
 	cp /opt/privesc/windows/collection/wget.exe $dir
 	cp /opt/privesc/windows/collection/wget64.exe $dir
 	cp /opt/privesc/windows/collection/Powerless.bat $dir
-
 	cp /opt/privesc/windows/win.zip $dir
 	cp /opt/privesc/windows/unzip.vbs $dir
-
 	cp /opt/privesc/windows/Ghostpack-CompiledBinaries/Seatbelt.exe $dir
-	
-	cp /opt/powershell/AMSI/my-am-bypass.ps1 $dir
+	cp /opt/csharp/RunasCs.exe $dir
+	cp /opt/static/nmap-7.92-win32.zip $dir
+	cp /opt/static/nmap-7.80SVN-x86_64-a36a34aa6-portable.tar.gz $dir
 
-	cp /opt/powershell/ADRecon/ADRecon.ps1 $dir
-
-	
 
 	# Powershell
 	
@@ -48,6 +41,11 @@ function privesc()
 	cp /opt/powershell/BC-SECURITY-Empire/empire/server/data/module_source/privesc/PowerUp.ps1 $dir
 	cp /opt/powershell/BC-SECURITY-Empire/empire/server/data/module_source/privesc/Invoke-winPEAS.ps1 $dir
 	cp /opt/powershell/nishang/Shells/Invoke-PowerShellTcp.ps1 $dir
+	cp /opt/powershell/AMSI/my-am-bypass.ps1 $dir
+	cp /opt/powershell/ADRecon/ADRecon.ps1 $dir
+	cp /opt/filetransfer/SMB2.ps1 $dir
+	cp /opt/powershell/Invoke-RunasCs.ps1 $dir
+
 
 	# AD Enumeration
 	
@@ -56,7 +54,14 @@ function privesc()
 	cp /opt/powershell/PowerSploit/Recon/PowerView.ps1 $dir
 	cp /opt/powershell/AMSI/my-am-bypass.ps1 $dir
 	cp /opt/powershell/AMSI/amsi.txt $dir
+	cp /opt/powershell/adPEAS/adPEAS.ps1 $dir
 
+
+	# Potato
+	cp /opt/privesc/windows/PrintSpoofer64.exe $dir
+	cp /opt/privesc/windows/PrintSpoofer64.exe $dir
+	cp /opt/privesc/windows/GodPotato-NET4.exe $dir
+	cp /opt/privesc/windows/SigmaPotato.exe $dir
 
 	echo "" && echo "privesc directory" && echo ""
 	ls $dir

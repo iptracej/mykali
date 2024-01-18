@@ -1,0 +1,26 @@
+#!/usr/bin/bash
+
+# This script checks open port response messages via nc command. 
+# Usage: qportres nmap/all.nmap
+# This script assues that you define $RHOST in your environment. 
+# Press Ctrl+C to go to the next ports. 
+
+# Check if the port file exists
+if [ ! -f "$1" ]; then
+    echo "Nmap scan file not found."
+    echo "Usage: qopenres nmap/all.nmap"
+    exit 1
+fi
+
+if [ -z "$RHOST" ]; then
+    echo "Please define \$RHOST in your environment."
+    exit 1
+fi
+
+for i in $(grep -oP '\b[0-9]+(?=/(tcp|udp))\b' $1 | sort -n | uniq -c | awk '{print $2}'); do
+    echo -n "$i: "
+    nc -w 3 $RHOST $i
+    echo
+done
+
+
