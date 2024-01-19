@@ -12,6 +12,11 @@ git clone https://github.com/iptracej/mykali/
 
 2) Copy configuration files to the directories 
 ```bash
+
+# backup .bashrc and .tmux conf if any
+cp .bashrc .bashrc.bak
+cp .tmux.conf .tmux.conf.bak
+
 cd mykali 
 cp roles/configure-tmux/files/.tmux.conf ~/
 cp roles/configure-tmux/files/tmux-* ~/.tmux/
