@@ -34,9 +34,6 @@ cp roles/configure-kali_env/files/.bash_aliases ~/
 
 3) Install tmux plugins
 ```bash
-# Maybe tmux is already installed... 
-sudo apt install tmux
-
 # Tmux Plugin Manager (TPM)
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
