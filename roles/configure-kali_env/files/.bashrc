@@ -155,11 +155,11 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# iptracej additional configurations
+export NO_AT_BRIDGE=1
 
-# Set timezone
-export TZ=/usr/share/zoneinfo/US/Pacific
-# set path
-export PATH=$HOME/.local/bin:$HOME/.local/mytools:$HOME/bin:$PATH
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+export PATH=$HOME/.local/bin:$HOME/bin:$PATH
 
 
+. "$HOME/.cargo/env"

@@ -47,3 +47,7 @@ alias pypykatz='/opt/python/pypykatz/venv/bin/pypykatz'
 alias kerberoast='/opt/python/kerberoast/venv/bin/kerberoast'
 alias certipy='/opt/python/Certipy/venv/bin/certipy'
 
+
+# productibity
+# alias color_output="sed -E -e 's/([0-9]{1,3}\.){3}[0-9]{1,3}/\x1b[32m&\x1b[0m/g' -E -e 's/([a-zA-Z0-9.-]+\.){1,}[a-zA-Z]{2,6}/\x1b[32m&\x1b[0m/g' -E -e 's/(open|filtered|closed)/\x1b[33m&\x1b[0m/g'"
+alias color_output="sed -E -e 's/([0-9]{1,3}\.){3}[0-9]{1,3}/\x1b[32m&\x1b[0m/g' -E -e 's/([a-zA-Z0-9.-]+\.){1,}[a-zA-Z]{2,6}/\x1b[32m&\x1b[0m/g' -E -e 's/(open)/\x1b[33m&\x1b[0m/g'"
