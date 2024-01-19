@@ -12,6 +12,7 @@ git clone https://github.com/iptracej/mykali/
 
 2) Install tmux
 ```bash
+# Maybe tmux is already installed... 
 sudo apt install tmux
 
 # Tmux Plugin Manager (TPM)
