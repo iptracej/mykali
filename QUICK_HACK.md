@@ -1,6 +1,6 @@
-# mykali 
+# mykali - Quick Hack to copy mykali terminal environment  
 
-This is the instruction to configure some of the files to pre-complied desktop like 'Play Machine' in the hack the box. 
+This is the instruction to configure some of the files to pre-complied desktop like 'Pwnbox' on the hack the box. 
 
 ## Set-up Instruction
 
