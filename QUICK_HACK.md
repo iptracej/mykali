@@ -10,7 +10,16 @@ This is the instruction to configure some of the files to pre-complied desktop l
 git clone https://github.com/iptracej/mykali/ 
 ```
 
-2) Install tmux
+2) Copy configuration files to the directories 
+```bash
+cd mykali 
+cp roles/configure-tmux/files/.tmux.conf ~/
+cp roles/configure-tmux/files/tmux-* ~/.tmux/
+cp roles/configure-kali_env/files/.bashrc ~/
+cp roles/configure-kali_env/files/.bash_aliases ~/
+```
+
+3) Install tmux
 ```bash
 # Maybe tmux is already installed... 
 sudo apt install tmux
@@ -18,15 +27,12 @@ sudo apt install tmux
 # Tmux Plugin Manager (TPM)
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-# Initialize TPM
-run '~/.tmux/plugins/tpm/tpm'
-
 # Reload tmux environment so TPM is sourced. 
 tmux source ~/.tmux.conf
 ```
 Press prefix + I (capital i, as in Install) to fetch the plugin if required. 
 
-3) Install fish and bass plugin 
+4) Install fish and bass plugin 
 ```bash
 sudo apt install fish
 
@@ -35,15 +41,6 @@ curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fi
 
 # bass - bash for fish 
 fisher install edc/bass
-```
-
-4) Copy configuration files to the directories 
-```bash
-cd mykali 
-cp roles/configure-tmux/files/.tmux.conf ~/
-cp roles/configure-tmux/files/tmux-* ~/.tmux/
-cp roles/configure-kali_env/files/.bashrc ~/
-cp roles/configure-kali_env/files/.bash_aliases ~/
 ```
 
 5) Setup a mykali bin directory to your path
