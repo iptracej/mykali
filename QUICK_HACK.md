@@ -1,4 +1,4 @@
-# mykali - Quick Hack to copy mykali terminal environment  
+# mykali - Quick Hack  
 
 This is the instruction to configure some of the files to pre-complied desktop like 'Pwnbox' on the hack the box. 
 
