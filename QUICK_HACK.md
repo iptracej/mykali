@@ -10,9 +10,17 @@ This is the instruction to configure some of the files to pre-complied desktop l
 git clone https://github.com/iptracej/mykali/ 
 ```
 
-2) Copy configuration files to the directories 
+2) Install tmux 
 ```bash
+# Check tmux is installed.
+ls -al ~/.tmux.conf ~/.tmux
 
+# If not installed, then install it.
+sudo apt install tmux
+```
+
+3) Copy configuration files to the directories 
+```bash
 # backup .bashrc and .tmux conf if any
 cp .bashrc .bashrc.bak
 cp .tmux.conf .tmux.conf.bak
@@ -24,7 +32,7 @@ cp roles/configure-kali_env/files/.bashrc ~/
 cp roles/configure-kali_env/files/.bash_aliases ~/
 ```
 
-3) Install tmux
+3) Install tmux plugins
 ```bash
 # Maybe tmux is already installed... 
 sudo apt install tmux
