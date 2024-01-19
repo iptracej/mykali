@@ -50,11 +50,12 @@ cp roles/configure-kali_env/files/.bash_aliases ~/
 export PATH=$PATH:$(pwd)/bin
 ```
 
-6) Fire up fish
+6) Fire up tmux and fish
 ```bash
-fish
+# Look at the .tmux.conf and change the default shell to fish. 
+# vi .tmux.conf
 
-# Look at the tmux.config and change the default shell to fish if you like. 
+tmux
 ```
 
 ## Regular tasks 
